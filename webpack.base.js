@@ -51,7 +51,7 @@ var config = {
   entry: entries,
   output: {
     path: path.join(__dirname, '/build'),
-    filename: isProd ? 'static/transition/[name].js' : 'static/[name].js',
+    filename: isProd ? 'static/[name].js' : 'static/[name].js',
     publicPath: '',
     chunkFilename: '[id].chunk.js?[chunkHash]'
   },
@@ -125,16 +125,23 @@ var config = {
     new ExtractTextPlugin({
       filename: (getPath) => {
         // const ret = getPath('static/[name].css');
-        var temp = getPath('[name]').split('/');
+        const temp = getPath('[name]').split('/');
         temp[1] = 'css';
         return isProd ? `static/${temp.join('/')}.css` : `static/${temp.join('/')}.css`;
       }
     }),
+    new webpack.optimize.LimitChunkCountPlugin({
+      minChunkSize: 1000
+    }),
+    // 通过合并小于 minChunkSize 大小的 chunk，将 chunk 体积保持在指定大小限制以上。
+    new webpack.optimize.MinChunkSizePlugin({
+      minChunkSize: 10000 // Minimum number of characters
+    }),
     new CommonsChunkPlugin({
       name: 'venders', // 将公共模块提取，生成名为`venders`的chunk
       chunks: chunks,
-      minChunks: chunks.length, // 提取所有entry共同依赖的模块
-      filename: isProd ? 'static/common/js/vender.js' : 'static/common/js/vender.js'
+      minChunks: 2, // 提取所有entry共同依赖的模块
+      filename: 'static/common/js/vender.js'
     })
   // new webpack.optimize.ModuleConcatenationPlugin(),
   ]

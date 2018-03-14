@@ -8,7 +8,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --progress",
     "start": "npm run dev"
   },
-  "author": "tang",
+  "author": "stella",
   "license": "MIT",
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
@@ -63,6 +63,7 @@
     "webpack-parallel-uglify-plugin": "^1.0.0"
   },
   "dependencies": {
+    "better-scroll": "^1.8.4",
     "es6-promise": "^4.2.4",
     "js-md5": "^0.6.1",
     "vue": "^2.4.2",
